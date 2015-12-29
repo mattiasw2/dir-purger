@@ -27,7 +27,7 @@
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}}
 
-  :uberjar-name "dir-purger.jar"
+  ;; :uberjar-name "dir-purger.jar"
 
 
   :plugins [

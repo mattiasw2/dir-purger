@@ -26,12 +26,13 @@
 (defn work
   "Called every :pause-minutes"
   []
-  (for [dir (:dirs Config)]
+  ;; (vec to force execution
+  (vec                                  
+   (for [dir (:dirs Config)]
     ;; todo: how to abort even quicker?
     (when (:running @state)
-      (do 
-        (println (str ":trial " (:trial Config)))
-        (myfile/delete-file-recursively dir (:tríal Config))))))
+      (myfile/delete-file-recursively dir (:trial Config)))
+    )))
   
 ;;; the NTService/daemon call-backs
 (defn init [args]
@@ -62,4 +63,6 @@
 ;; Enable command-line invocation
 (defn -main [& args]
   (init args)
-  (work))
+  (work)
+  (println (str "Finished "))
+  )

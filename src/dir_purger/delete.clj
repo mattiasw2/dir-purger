@@ -22,7 +22,6 @@
 (s/defn delete-file 
   "Delete file f."
   [file :- java.io.File trial :- s/Bool]
-  (println (str "1 trial " trial))
   (when (older-than-days 1 file)
     (if trial
       (println (str "will be deleted: " file))
@@ -40,7 +39,6 @@
   "Delete file f. If it's a directory, recursively delete all its contents.
    Only list files to delete unless trial is false."
   [f :- s/Str trial :- s/Bool]
-  (println (str "2 trial " trial))
   (let [file (io/as-file f)]
     (if (.isDirectory file)
       (do
