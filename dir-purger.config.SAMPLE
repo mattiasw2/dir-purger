@@ -1,0 +1,5 @@
+;; -*- mode:clojure -*-
+
+{:pause-minutes 60  
+ :dirs ["C:\\tmp\\","C:\\temp\\"]
+ }
