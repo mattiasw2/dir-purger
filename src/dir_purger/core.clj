@@ -2,6 +2,7 @@
  (:require 
   [dir-purger.delete :as myfile]
   [dir-purger.mw1 :as mw1]
+  [clojure.java.io :as io]
   )
    
   (:import [org.apache.commons.daemon Daemon DaemonContext])
@@ -15,7 +16,7 @@
 (def Config
   "The parameters used to identify your CDN77 account
    https://client.cdn77.com/support/api/version/2.0/data#Prefetch"
-  ;;{:pause-minutes 60 :dirs ["C:\\temp\\pricing-core\\"]})
+  ;;{:pause-minutes 60 :dirs ["C:\\temp\\pricing-core\\"] :trial true})
   (read-string (mw1/find-and-slurp "dir-purger.config")))
 
 
@@ -28,7 +29,9 @@
   (for [dir (:dirs Config)]
     ;; todo: how to abort even quicker?
     (when (:running @state)
-      (myfile/delete-file-recursively dir true))))
+      (do 
+        (println (str ":trial " (:trial Config)))
+        (myfile/delete-file-recursively dir (:tríal Config))))))
   
 ;;; the NTService/daemon call-backs
 (defn init [args]

@@ -1,16 +1,33 @@
 (ns dir-purger.delete
-   (:require 
-     [clojure.java.io :as io]
-     )
-   (:gen-class))
+  (:require
+   [schema.core :as s]
+   [clojure.java.io :as io]
+   )
+  (:gen-class))
 
+;; long diff = new Date().getTime() - file.lastModified();
 
-(defn delete-file
-  "Delete file f. Raise an exception if it fails unless silently is true."
-  [f & [silently]]
-  (or (.delete (io/as-file f))
-      silently
-      (throw (java.io.IOException. (str "Couldn't delete " f)))))
+;; if (diff > x * 24 * 60 * 60 * 1000) {
+;;     file.delete();
+;; }
+;; Which deletes files older than x (an int) days.
+
+(s/defn older-than-days :- s/Bool
+  "Return true if File object older than days days"
+  [days :- s/Num file :- java.io.File]
+  (let [diff (- (.getTime (java.util.Date.)) (.lastModified file))]
+    (> diff (* days 24 60 60 1000))))
+  
+
+(s/defn delete-file 
+  "Delete file f."
+  [file :- java.io.File trial :- s/Bool]
+  (println (str "1 trial " trial))
+  (when (older-than-days 1 file)
+    (if trial
+      (println (str "will be deleted: " file))
+      (.delete file))))
+
 
 ;; (defn delete-if-empty 
 ;;   "Deletes the given directory if it contains no files or subdirectories." 
@@ -19,21 +36,19 @@
 ;;     (. directory delete)
 ;;     true))
 
-(defn delete-file-recursively
+(s/defn delete-file-recursively
   "Delete file f. If it's a directory, recursively delete all its contents.
-Raise an exception if any deletion fails unless silently is true."
-  [f & [silently]]
-  (let [f (io/as-file f)]
-    (if (.isDirectory f)
+   Only list files to delete unless trial is false."
+  [f :- s/Str trial :- s/Bool]
+  (println (str "2 trial " trial))
+  (let [file (io/as-file f)]
+    (if (.isDirectory file)
       (do
-        (doseq [child (.listFiles f)]
-          ;;(println (str "recurse " child))
-          (delete-file-recursively child silently)
+        (doseq [child (.listFiles file)]
+          (delete-file-recursively child trial)
           )
         ;; no, do not delete empty directories, but if I want, I can do it here
         )
-      (do
-        ;;(println (str "file    " f))
-        (delete-file f silently)
-        ))
+      (delete-file file trial)
+      )
     ))

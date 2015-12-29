@@ -5,7 +5,7 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [
                  [org.clojure/clojure "1.7.0"]
-                 ;;[prismatic/schema "1.0.3"]
+                 [prismatic/schema "1.0.3"]
                  ;;[org.clojure/core.match "0.3.0-alpha4"]
                  ;; clojure logging
                  ;; https://github.com/ptaoussanis/timbre
@@ -31,18 +31,19 @@
 
 
   :plugins [
-            [cider/cider-nrepl "0.10.0"]
-
-            [lein-environ "1.0.0"]
+            ;;[cider/cider-nrepl "0.10.0"]
+            [cider/cider-nrepl "0.10.0" :exclusions [org.clojure/tools.nrepl]]
+            
+            ;;[lein-environ "1.0.0"]
             ;; Pretty-print a representation of the project map.
             ;; https://github.com/technomancy/leiningen/tree/master/lein-pprint
             ;; lein pprint
-            [lein-pprint "1.1.1"]
+            ;;[lein-pprint "1.1.1"]
             
             ;; lint for clojure
-            [lein-kibit "0.1.2"]
+            ;;[lein-kibit "0.1.2"]
             ;; another lint for clojure
-            [jonase/eastwood "0.2.3"]
+            ;;[jonase/eastwood "0.2.3"]
             ]
 
 

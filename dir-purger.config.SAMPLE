@@ -2,4 +2,5 @@
 
 {:pause-minutes 60  
  :dirs ["C:\\tmp\\","C:\\temp\\"]
+ :trial false
  }

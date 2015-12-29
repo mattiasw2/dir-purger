@@ -6,7 +6,11 @@ Mostly an exercise in a long-running clojure programming on Windows.
 
 ## Installation
 
-Should be run as a service or similar
+Should be run as a service or similar. On windows, you will need this
+
+http://www.apache.org/dist/commons/daemon/binaries/windows/
+
+Most likely version 1.0.15
 
 ## Usage
 
