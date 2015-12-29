@@ -14,13 +14,23 @@ Most likely version 1.0.15
 
 ## Usage
 
-FIXME: explanation
+Create a file dir-purger.config by editing dir-purger.config.SAMPLE
 
-    $ java -jar dir-purger-0.1.0-standalone.jar [args]
+Place it in the same folder as the .jar file, or if you are compiling, in the top dir of the project or above.
+
+Now, run using
+
+    $ java -jar dir-purger-0.1.0-standalone.jar 
 
 ## Options
 
-FIXME: listing of options this app accepts.
+The .config file contains the following fields
+
+:dirs which is a vector of directory names
+
+:pause-minutes is only used in daemon mode NIY
+
+:trial true doesn't delete any file, it just list them
 
 ## Examples
 
