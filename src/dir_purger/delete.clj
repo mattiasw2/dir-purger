@@ -38,14 +38,19 @@
 (s/defn delete-file-recursively
   "Delete file f. If it's a directory, recursively delete all its contents.
    Only list files to delete unless trial is false."
-  [f :- s/Str trial :- s/Bool]
-  (let [file (io/as-file f)]
+  [file :- java.io.File trial :- s/Bool toplevel? :- s/Bool]
+  (when (.exists file)
     (if (.isDirectory file)
       (do
-        (doseq [child (.listFiles file)]
-          (delete-file-recursively child trial)
+        ;; .listFiles creates File object, .list just names, to
+        ;; see if we can handle dir with 305700 files
+        (doseq [child (.list file)]
+          (delete-file-recursively (java.io.File. file child) trial false)
           )
         ;; no, do not delete empty directories, but if I want, I can do it here
+        (when-not toplevel?
+          (when (empty? (.list file))
+            (.delete file)))
         )
       (delete-file file trial)
       )

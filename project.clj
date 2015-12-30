@@ -1,4 +1,4 @@
-(defproject dir-purger "0.1.0-SNAPSHOT"
+(defproject dir-purger "0.2.1"
   :description "Keep directories clean of old files."
   :url "https://github.com/mattiasw2/dir-purger"
   :license {:name "Eclipse Public License"
