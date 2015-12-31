@@ -9,6 +9,8 @@
   (:gen-class
    :implements [org.apache.commons.daemon.Daemon]))
 
+(schema.core/set-fn-validation! true)
+
 ;;; read about procrun for windows, which is needed
 ;;; http://www.rkn.io/2014/02/06/clojure-cookbook-daemons/
 ;;; http://commons.apache.org/proper/commons-daemon/procrun.html
