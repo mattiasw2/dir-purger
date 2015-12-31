@@ -25,7 +25,10 @@
                  ]
   :main ^:skip-aot dir-purger.core
   :target-path "target/%s"
-  :profiles {:uberjar {:aot :all}}
+  :profiles {:uberjar {:aot :all}
+             ;; without this, nrepl 0.2.10 will be used and cider wants 0.2.12
+             :repl {:dependencies [[org.clojure/tools.nrepl "0.2.12"]]}
+             }
 
   ;; :uberjar-name "dir-purger.jar"
 
