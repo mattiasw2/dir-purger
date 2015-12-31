@@ -49,10 +49,10 @@
         (doseq [child (.list file)]
           (delete-file-recursively (java.io.File. file child) trial false)
           )
-        ;; no, do not delete empty directories, but if I want, I can do it here
+        ;; delete empty directories
         (when-not toplevel?
           (when (empty? (.list file))
-            (.delete file)))
+            (when (older-than-days 1 file) (.delete file))))
         )
       (delete-file file trial)
       )
