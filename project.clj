@@ -16,18 +16,20 @@
 
                  ;; for Windows service
                  [commons-daemon/commons-daemon "1.0.15"]
-
-
-                 ;; frm .lein: spyscope: #spy/p #spy/d #spy/t
-                 ;; (take 20 (repeat #spy/p (+ 1 2 3)))
-                 [spyscope "0.1.5"]
-
                  ]
   :main ^:skip-aot dir-purger.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}
              ;; without this, nrepl 0.2.10 will be used and cider wants 0.2.12
-             :repl {:dependencies [[org.clojure/tools.nrepl "0.2.12"]]}
+             :repl
+             {
+              :dependencies
+              [
+               [org.clojure/tools.nrepl "0.2.12"]
+               ;; frm .lein: spyscope: #spy/p #spy/d #spy/t
+               ;; (take 20 (repeat #spy/p (+ 1 2 3)))
+               [spyscope "0.1.5"]
+               ]}
              }
 
   ;; :uberjar-name "dir-purger.jar"
