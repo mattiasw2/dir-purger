@@ -5,14 +5,19 @@
   (:gen-class)
   )
 
+(do
+  ;;(set! *warn-on-reflection* true)
+  (schema.core/set-fn-validation! true))
+
 (defn this-jar?
   "utility function to get the name of jar in which this function is invoked
   Used like this: (println (this-jar mw.config-file))"
   [& [ns]]
-  (try
-    (-> (or ns (class *ns*))
-        .getProtectionDomain .getCodeSource .getLocation .getPath)
-    (catch Exception e nil)))
+  (let [^clojure.lang.Namespace ns2 (or ns (class *ns*))]
+    (try
+      (-> ns2
+          .getProtectionDomain .getCodeSource .getLocation .getPath)
+      (catch Exception e nil))))
 
 (defn find-and-slurp-internal
   "Search and slurp for file in this dir, and all parents until found. Throw exception if not found. Max 50 levels"
@@ -34,8 +39,9 @@
   (try
     (find-and-slurp-internal filename)
     (catch Exception e
-      (let [jar-path (this-jar? nil)] ;; dir-purger.config-file)]
+      ;; type hints can both be set in let/arg or as you see further down in the call
+      (let [^String jar-path (this-jar? nil)] ;; dir-purger.config-file)]
         (if jar-path
-          (find-and-slurp-internal filename 50 (str (.getParent (java.io.File. jar-path)) "/"))
+          (find-and-slurp-internal filename 50 (str (.getParent (java.io.File. ^String jar-path)) "/"))
           (throw (Exception. (str "Not found: " filename))))))))
 

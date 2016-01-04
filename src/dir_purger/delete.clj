@@ -5,7 +5,7 @@
    )
   (:gen-class))
 
-(schema.core/set-fn-validation! true)
+(do (set! *warn-on-reflection* true)(schema.core/set-fn-validation! true))
 
 ;; long diff = new Date().getTime() - file.lastModified();
 
@@ -47,7 +47,7 @@
         ;; .listFiles creates File object, .list just names, to
         ;; see if we can handle dir with 305700 files
         (doseq [child (.list file)]
-          (delete-file-recursively (java.io.File. file child) trial false)
+          (delete-file-recursively (java.io.File. file ^String child) trial false)
           )
         ;; delete empty directories
         (when-not toplevel?
